@@ -76,6 +76,9 @@ class SpecialistController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
+            if ($specialist->image && file_exists(public_path($specialist->image))) {
+                unlink(public_path($specialist->image));
+            }
             $imageName = time() . '.' . $request->image->extension();
             $request->image->move(public_path('images/specialists'), $imageName);
             $validated['image'] = 'images/specialists/' . $imageName;
@@ -87,6 +90,10 @@ class SpecialistController extends Controller
 
     public function destroy(Specialist $specialist)
     {
+        if ($specialist->image && file_exists(public_path($specialist->image))) {
+            unlink(public_path($specialist->image));
+        }
+
         $specialist->delete();
         return redirect()->route("dashboard.specialists.index")->with("success", "تم حذف الأخصائي بنجاح.");
     }

@@ -71,6 +71,9 @@ class ArticleController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
+            if ($article->image && file_exists(public_path($article->image))) {
+                unlink(public_path($article->image));
+            }
             $imageName = time() . '.' . $request->image->extension();
             $request->image->move(public_path('images/articles'), $imageName);
             $validated['image'] = 'images/articles/' . $imageName;
@@ -82,6 +85,10 @@ class ArticleController extends Controller
 
     public function destroy(Article $article)
     {
+        if ($article->image && file_exists(public_path($article->image))) {
+            unlink(public_path($article->image));
+        }
+
         $article->delete();
         return redirect()->route("dashboard.articles.index")->with("success", "تم حذف المقال بنجاح.");
     }

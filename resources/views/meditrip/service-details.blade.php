@@ -198,7 +198,7 @@
                                 <div class="form-check mt-3">
                                     <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
                                     <label class="form-check-label" for="defaultCheck1">
-                                        أنا أوافق على <a href="#" class="policy">شروط الإستخدام و
+                                        أنا أوافق على <a href="{{ url('/policies') }}" class="policy">شروط الإستخدام و
                                             سياسة الخصوصية</a>
                                     </label>
                                   </div>
@@ -227,7 +227,7 @@
                                 </p>
                             </div>
                             <div class="col-lg-3 mx-auto">
-                                <a href="#" class="btn cs-btn wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.3s">ارسل طلب الأن</a>
+                                <a href="{{ url('/questions') }}" class="btn cs-btn wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.3s">ارسل طلب الأن</a>
                             </div>
                         </div>
                     </div>
@@ -238,7 +238,7 @@
     </div>
      <!-- contact-us-btn -->
      <div class="contact-us-btn">
-        <a href="#">
+        <a href="{{ url('/contact-us') }}">
             <figure>
                 <img src="build/assets/images/contact-us-icon.svg" alt="" srcset="">
             </figure>

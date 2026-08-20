@@ -7,6 +7,15 @@
         </ol>
 
         <div class="d-flex gap-2 mb-4">
+            @if ($message->status !== 'read')
+                <form action="{{ route('dashboard.messages.markRead', $message) }}" method="POST" class="d-inline">
+                    @csrf
+                    @method('PATCH')
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-check me-1"></i> تحديد كمقروءة
+                    </button>
+                </form>
+            @endif
             <form action="{{ route('dashboard.messages.destroy', $message) }}" method="POST" class="d-inline">
                 @csrf
                 @method('DELETE')

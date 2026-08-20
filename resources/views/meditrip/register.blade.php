@@ -23,7 +23,7 @@
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <div class="mb-3">
-                                                <label for="text" class="col-form-label">الاسم كاملا:</label>
+                                                <label for="name" class="col-form-label">الاسم كاملا:</label>
                                                 <div class="icon-input">
                                                     <span class="icon-i">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
@@ -66,7 +66,7 @@
                                         </div>
                                         <div class="col-lg-12">
                                             <div class="mb-3">
-                                                <label for="text" class="col-form-label">رقم الجوال:</label>
+                                                <label for="phone" class="col-form-label">رقم الجوال:</label>
                                                 <div class="icon-input">
                                                     <span class="icon-i">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
@@ -86,7 +86,7 @@
                                         </div>
                                         <div class="col-lg-12">
                                             <div class="mb-3">
-                                                <label for="text" class="col-form-label">الاسم كاملا:</label>
+                                                <label for="country" class="col-form-label">الدولة:</label>
                                                 <div class="icon-input">
                                                     <span class="icon-i">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
@@ -112,7 +112,7 @@
                                         </div>
                                         <div class="col-lg-12">
                                             <div class="mb-3">
-                                                <label for="address" class="col-form-label">كلمة المرور:</label>
+                                                <label for="password" class="col-form-label">كلمة المرور:</label>
                                                 <div class="icon-input">
                                                     <span class="icon-i">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">

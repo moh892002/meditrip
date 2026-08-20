@@ -73,6 +73,9 @@ class OfferController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
+            if ($offer->image && file_exists(public_path($offer->image))) {
+                unlink(public_path($offer->image));
+            }
             $imageName = time() . '.' . $request->image->extension();
             $request->image->move(public_path('images/offers'), $imageName);
             $validated['image'] = 'images/offers/' . $imageName;
@@ -84,6 +87,10 @@ class OfferController extends Controller
 
     public function destroy(Offer $offer)
     {
+        if ($offer->image && file_exists(public_path($offer->image))) {
+            unlink(public_path($offer->image));
+        }
+
         $offer->delete();
         return redirect()->route("dashboard.offers.index")->with("success", "تم حذف العرض بنجاح.");
     }

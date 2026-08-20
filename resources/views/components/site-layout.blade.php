@@ -1,6 +1,6 @@
 <!doctype html>
 
-<html lang="en" dir="rtl">
+<html lang="ar" dir="rtl">
 
 <head>
     <meta charset="utf-8">
@@ -55,7 +55,7 @@
                     </li>
                     <li class="nav-item">
                         <div class="cs-dropdown">
-                          
+
                             <div class="dropdown">
                                 <button class="btn dropdown-toggle" type="button" id="achievements" data-bs-toggle="dropdown" aria-expanded="false">
                                     الخدمات الصحية
@@ -218,7 +218,7 @@
                                 VIP
                             </a>
                         </li>
-                       
+
                     </ul>
                 </nav>
                 <div class="d-flex align-items-center gap-2">
@@ -345,7 +345,7 @@
                                                             transform="translate(-12.247 -10.729)" fill="#fff" />
                                                     </g>
                                                 </svg>
-    
+
                                             </span>
                                             AR
                                         </a>
@@ -479,16 +479,16 @@
                         <i class="fas fa-bars"></i>
                     </button>
                 </div>
-               
+
             </div>
         </div>
 
     </header>
     <!-- Main header -->
 
-    
+
         {{ $slot }}
-    
+
     <footer class="main-footer" id="footer">
         <div class="container">
             <div class="f-top">
@@ -526,18 +526,18 @@
                     </div>
                     <div class="col-lg-2 col-md-4 col-6">
                         <div class="f-widget">
-                            <h3 class="title">خدمات صحية</h3>  
+                            <h3 class="title">خدمات صحية</h3>
                             <ul>
                                 <li><a href="/service-details"> التأمين الصحي</a></li>
                                 <li><a href="/service-details">الاستشارات القانونية</a></li>
-                            </ul>                 
+                            </ul>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="f-bottom d-flex align-items-center justify-content-md-between justify-content-center flex-wrap">
                 <p class="f-copyright">
-                    جميع الحقوق محفوظة لوزارة شؤون المرأة © 2022
+                    جميع الحقوق محفوظة لميدي تريب © {{ date('Y') }}
                 </p>
 
                 <div class="f-social">
@@ -744,7 +744,7 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="{{ asset('build/assets/js/main.js') }}"></script>
     <script>
-  
+
     </script>
     <!-- <script src="assets/js/scripts.js"></script> -->
     <!-- <script src="assets/js/scripts-en.js"></script> -->

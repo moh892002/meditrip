@@ -152,8 +152,9 @@ Route::middleware(['auth', 'admin'])->prefix('dashboard')->name('dashboard.')->g
     // Dashboard Users (read-only + delete)
     Route::resource('users', DashboardUserController::class)->only(['index', 'show', 'destroy']);
 
-    // Dashboard Contact Messages (read-only + delete)
+    // Dashboard Contact Messages (read-only + delete + mark as read)
     Route::resource('messages', DashboardContactMessageController::class)->only(['index', 'show', 'destroy']);
+    Route::patch('messages/{message}/read', [DashboardContactMessageController::class, 'markRead'])->name('messages.markRead');
 
     // Dashboard Rates (read-only + delete)
     Route::resource('rates', DashboardRateController::class)->only(['index', 'show', 'destroy']);

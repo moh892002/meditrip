@@ -527,7 +527,7 @@
                             </p>
                         </div>
                         <div class="col-lg-3 mx-auto">
-                            <a href="#" class="btn cs-btn wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.3s">طلب استشارة</a>
+                            <a href="{{ url('/questions') }}" class="btn cs-btn wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.3s">طلب استشارة</a>
                         </div>
                     </div>
                 </div>
@@ -578,7 +578,7 @@
 
      <!-- contact-us-btn -->
      <div class="contact-us-btn">
-        <a href="#">
+        <a href="{{ url('/contact-us') }}">
             <figure>
                 <img src="build/assets/images/contact-us-icon.svg" alt="" srcset="">
             </figure>

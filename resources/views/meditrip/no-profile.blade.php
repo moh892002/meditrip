@@ -57,7 +57,7 @@
                             </div>
                             <ul>
                                 <li class="active">
-                                    <a href="#">
+                                    <a href="{{ url('/profile') }}">
                                         <span>
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                                                 <g id="vuesax_bulk_note" data-name="vuesax/bulk/note" transform="translate(-428 -252)">
@@ -81,7 +81,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#">
+                                    <a href="{{ url('/user-info') }}">
                                         <span>
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                                                 <g id="vuesax_bulk_profile" data-name="vuesax/bulk/profile" transform="translate(-108 -252)">
@@ -97,7 +97,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#">
+                                    <a href="{{ url('/contact-us') }}">
                                         <span>
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                                                 <g id="vuesax_bulk_message-text" data-name="vuesax/bulk/message-text" transform="translate(-236 -252)">
@@ -114,18 +114,21 @@
                                     </a>
                                 </li>
                                 <li class="logout">
-                                    <a href="#">
-                                        <span>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                                                <g id="logout" transform="translate(-748 -444)">
-                                                  <path id="Vector" d="M0,5.2v9.59A4.835,4.835,0,0,0,5.2,20H7.79a4.832,4.832,0,0,0,5.2-5.2V5.2A4.819,4.819,0,0,0,7.8,0H5.2A4.832,4.832,0,0,0,0,5.2Z" transform="translate(757 446)" fill="#ffe2e2"/>
-                                                  <path id="Vector-2" data-name="Vector" d="M3.568.225.218,3.575a.754.754,0,0,0,0,1.06l3.35,3.35a.75.75,0,1,0,1.06-1.06l-2.07-2.07h10.69a.75.75,0,0,0,0-1.5H2.557l2.07-2.07a.742.742,0,0,0,.22-.53.725.725,0,0,0-.22-.53A.737.737,0,0,0,3.568.225Z" transform="translate(750.003 451.895)" fill="#ff4040"/>
-                                                  <path id="Vector-3" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(748 444)" fill="none" opacity="0"/>
-                                                </g>
-                                              </svg>                                                                                                                       
-                                        </span>
-                                        تسجيل الخروج
-                                    </a>
+                                    <form action="{{ route('logout') }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="btn btn-link p-0 text-decoration-none d-flex align-items-center gap-2">
+                                            <span>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                                    <g id="logout" transform="translate(-748 -444)">
+                                                      <path id="Vector" d="M0,5.2v9.59A4.835,4.835,0,0,0,5.2,20H7.79a4.832,4.832,0,0,0,5.2-5.2V5.2A4.819,4.819,0,0,0,7.8,0H5.2A4.832,4.832,0,0,0,0,5.2Z" transform="translate(757 446)" fill="#ffe2e2"/>
+                                                      <path id="Vector-2" data-name="Vector" d="M3.568.225.218,3.575a.754.754,0,0,0,0,1.06l3.35,3.35a.75.75,0,1,0,1.06-1.06l-2.07-2.07h10.69a.75.75,0,0,0,0-1.5H2.557l2.07-2.07a.742.742,0,0,0,.22-.53.725.725,0,0,0-.22-.53A.737.737,0,0,0,3.568.225Z" transform="translate(750.003 451.895)" fill="#ff4040"/>
+                                                      <path id="Vector-3" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(748 444)" fill="none" opacity="0"/>
+                                                    </g>
+                                                  </svg>                                                                                                                       
+                                            </span>
+                                            تسجيل الخروج
+                                        </button>
+                                    </form>
                                 </li>
     
                             </ul>
@@ -142,7 +145,7 @@
                                         </figure>
                                         <h6>لا طلبات</h6>
                                         <p>لم تقم بإرسال أي طلب عرض سعر لمستشفى حتى الأن</p>
-                                        <a href="#" class="btn cs-btn">طلب عرض سعر</a>
+                                        <a href="{{ url('/questions') }}" class="btn cs-btn">طلب عرض سعر</a>
                                     </div>
                                 </div>
                          
@@ -152,56 +155,56 @@
                             <h4 class="mb-5">مقالات مهمة</h4>
                             <div class="row">
                                 <div class="col-xl-6">
-                                    <a href="#">
+                                    <a href="{{ url('/blog') }}">
 
                                         <div class="recently-article-card d-flex align-items-center">
                                             <figure class="mb-0">
                                               <img src="build/assets/images/article-2.png" class="img-fluid" alt="...">
                                             </figure>
                                             <div class="flex-grow-1 ms-3">
-                                                <h4>‏20 يوليو، 2022 - أمراض القلب</h4>
+                                                <h4> ‏20 يوليو، 2022 - أمراض القلب</h4>
                                                 <h2>الجلطة القلبية: وأعراض جلطة القلب وأسبابها وماذا بعد الإصابة </h2>
                                             </div>
                                           </div>
                                     </a>
                                 </div>
                                 <div class="col-xl-6">
-                                    <a href="#">
+                                    <a href="{{ url('/blog') }}">
 
                                         <div class="recently-article-card d-flex align-items-center">
                                             <figure class="mb-0">
                                               <img src="build/assets/images/article-2.png" class="img-fluid" alt="...">
                                             </figure>
                                             <div class="flex-grow-1 ms-3">
-                                                <h4>‏20 يوليو، 2022 - أمراض القلب</h4>
+                                                <h4> ‏20 يوليو، 2022 - أمراض القلب</h4>
                                                 <h2>الجلطة القلبية: وأعراض جلطة القلب وأسبابها وماذا بعد الإصابة </h2>
                                             </div>
                                           </div>
                                     </a>
                                 </div>
                                 <div class="col-xl-6">
-                                    <a href="#">
+                                    <a href="{{ url('/blog') }}">
 
                                         <div class="recently-article-card d-flex align-items-center">
                                             <figure class="mb-0">
                                               <img src="build/assets/images/article-2.png" class="img-fluid" alt="...">
                                             </figure>
                                             <div class="flex-grow-1 ms-3">
-                                                <h4>‏20 يوليو، 2022 - أمراض القلب</h4>
+                                                <h4> ‏20 يوليو، 2022 - أمراض القلب</h4>
                                                 <h2>الجلطة القلبية: وأعراض جلطة القلب وأسبابها وماذا بعد الإصابة </h2>
                                             </div>
                                           </div>
                                     </a>
                                 </div>
                                 <div class="col-xl-6">
-                                    <a href="#">
+                                    <a href="{{ url('/blog') }}">
 
                                         <div class="recently-article-card d-flex align-items-center">
                                             <figure class="mb-0">
                                               <img src="build/assets/images/article-2.png" class="img-fluid" alt="...">
                                             </figure>
                                             <div class="flex-grow-1 ms-3">
-                                                <h4>‏20 يوليو، 2022 - أمراض القلب</h4>
+                                                <h4> ‏20 يوليو، 2022 - أمراض القلب</h4>
                                                 <h2>الجلطة القلبية: وأعراض جلطة القلب وأسبابها وماذا بعد الإصابة </h2>
                                             </div>
                                           </div>
@@ -218,7 +221,7 @@
     </div>
      <!-- contact-us-btn -->
      <div class="contact-us-btn">
-        <a href="#">
+        <a href="{{ url('/contact-us') }}">
             <figure>
                 <img src="build/assets/images/contact-us-icon.svg" alt="" srcset="">
             </figure>

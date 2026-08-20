@@ -45,7 +45,7 @@
                                         </div>
                                         <div class="col-lg-12">
                                             <div class="mb-3">
-                                                <label for="address" class="col-form-label">كلمة المرور:</label>
+                                                <label for="password" class="col-form-label">كلمة المرور:</label>
                                                 <div class="icon-input">
                                                     <span class="icon-i">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
@@ -121,7 +121,7 @@
                                         </div>
                                         <div class="col-lg-12 d-flex justify-content-between">
                                             <label class="cs-checkbox-1">تذكرني
-                                                <input type="checkbox" >
+                                                <input type="checkbox" name="remember">
                                                 <span class="checkmark"></span>
                                             </label>
                                             <a href="/forgetpassword" class="forget_password">هل نسيت كلمة المرور؟</a>

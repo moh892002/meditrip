@@ -193,7 +193,7 @@
                                                 <td class="align-middle">{{ $hospital->city }}</td>
                                                 <td class="align-middle">
                                                     <span class="badge bg-warning text-dark">
-                                                        <i class="fas fa-star text-warning-emphasis"></i>
+                                                        <i class="fas fa-star text-warning"></i>
                                                         {{ number_format($hospital->rates_avg_rating, 1) }}
                                                     </span>
                                                 </td>
@@ -326,13 +326,13 @@
                                                     @php
                                                         $statusColors = [
                                                             'pending' => 'warning',
-                                                            'approved' => 'success',
-                                                            'completed' => 'info',
+                                                            'processing' => 'info',
+                                                            'completed' => 'success',
                                                             'cancelled' => 'danger',
                                                         ];
                                                         $statusLabels = [
                                                             'pending' => 'قيد الانتظار',
-                                                            'approved' => 'مقبول',
+                                                            'processing' => 'قيد المعالجة',
                                                             'completed' => 'مكتمل',
                                                             'cancelled' => 'ملغي',
                                                         ];

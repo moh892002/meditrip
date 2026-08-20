@@ -130,7 +130,7 @@
 
     <!-- contact-us-btn -->
     <div class="contact-us-btn">
-        <a href="#">
+        <a href="{{ url('/contact-us') }}">
             <figure>
                 <img src="build/assets/images/contact-us-icon.svg" alt="" srcset="">
             </figure>

@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\Specializtion;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 
 class SpecializationController extends Controller
@@ -31,14 +30,14 @@ class SpecializationController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $path = $image->store("images/specializations", "imageDisk");
-            $validated['image'] = $path;
+            $imageName = time() . '.' . $request->image->extension();
+            $request->image->move(public_path('images/specializations'), $imageName);
+            $validated['image'] = 'images/specializations/' . $imageName;
         }
 
         Specializtion::create($validated);
 
-        return redirect()->route("dashboard.specializations.index")->with("success", "Specialization created successfully.");
+        return redirect()->route("dashboard.specializations.index")->with("success", "تم إضافة التخصص بنجاح.");
     }
 
     public function show(Specializtion $specialization)
@@ -61,32 +60,32 @@ class SpecializationController extends Controller
     public function update(Request $request, Specializtion $specialization)
     {
         $validated = $request->validate([
-            "name" => "required|string|max:255",
-            "image" => "nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048",
+            "name" => "sometimes|required|string|max:255",
+            "image" => "sometimes|nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048",
         ]);
 
         if ($request->hasFile('image')) {
             if ($specialization->image && file_exists(public_path($specialization->image))) {
-                Storage::disk('imageDisk')->delete($specialization->image);
+                unlink(public_path($specialization->image));
             }
 
-            $image = $request->file('image');
-            $path = $image->store("images/specializations", "imageDisk");
-            $validated['image'] = $path;
+            $imageName = time() . '.' . $request->image->extension();
+            $request->image->move(public_path('images/specializations'), $imageName);
+            $validated['image'] = 'images/specializations/' . $imageName;
         }
 
         $specialization->update($validated);
 
-        return redirect()->route("dashboard.specializations.index")->with("success", "Specialization updated successfully.");
+        return redirect()->route("dashboard.specializations.index")->with("success", "تم تحديث التخصص بنجاح.");
     }
 
     public function destroy(Specializtion $specialization)
     {
         if ($specialization->image && file_exists(public_path($specialization->image))) {
-            Storage::disk('imageDisk')->delete($specialization->image);
+            unlink(public_path($specialization->image));
         }
 
         $specialization->delete();
-        return redirect()->route("dashboard.specializations.index")->with("success", "Specialization deleted successfully.");
+        return redirect()->route("dashboard.specializations.index")->with("success", "تم حذف التخصص بنجاح.");
     }
 }

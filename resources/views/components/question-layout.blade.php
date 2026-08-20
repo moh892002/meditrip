@@ -1,8 +1,6 @@
-<div>
-    <!-- Nothing in life is to be feared, it is only to be understood. Now is the time to understand more, so that we may fear less. - Maria Skłodowska-Curie -->
-</div><!doctype html>
+<!doctype html>
 
-<html lang="en" dir="rtl">
+<html lang="ar" dir="rtl">
 
 <head>
     <meta charset="utf-8">
@@ -63,7 +61,7 @@
 
                 </a>
             </div>
-        </div>v
+        </div>
     </div>
 
 
