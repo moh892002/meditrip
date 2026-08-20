@@ -27,7 +27,7 @@ class Hospital extends Model
 
     public function specializations()
     {
-        return $this->belongsToMany(Specializtion::class, 'hospital_specialization', 'hospital_id', 'specializtion_id');
+        return $this->belongsToMany(Specialization::class, 'hospital_specialization', 'hospital_id', 'specialization_id');
     }
 
     public function specialists()

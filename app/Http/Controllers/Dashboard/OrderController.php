@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\Hospital;
-use App\Models\Specializtion;
+use App\Models\Specialization;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller

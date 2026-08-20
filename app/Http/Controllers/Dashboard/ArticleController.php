@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Article;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ArticleController extends Controller
 {
@@ -35,9 +36,7 @@ class ArticleController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            $imageName = time() . '.' . $request->image->extension();
-            $request->image->move(public_path('images/articles'), $imageName);
-            $validated['image'] = 'images/articles/' . $imageName;
+            $validated['image'] = $request->file('image')->store('images/articles', 'imageDisk');
         }
 
         Article::create($validated);
@@ -71,12 +70,11 @@ class ArticleController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            if ($article->image && file_exists(public_path($article->image))) {
-                unlink(public_path($article->image));
+            if ($article->image) {
+                Storage::disk('imageDisk')->delete($article->image);
             }
-            $imageName = time() . '.' . $request->image->extension();
-            $request->image->move(public_path('images/articles'), $imageName);
-            $validated['image'] = 'images/articles/' . $imageName;
+
+            $validated['image'] = $request->file('image')->store('images/articles', 'imageDisk');
         }
 
         $article->update($validated);
@@ -85,8 +83,8 @@ class ArticleController extends Controller
 
     public function destroy(Article $article)
     {
-        if ($article->image && file_exists(public_path($article->image))) {
-            unlink(public_path($article->image));
+        if ($article->image) {
+            Storage::disk('imageDisk')->delete($article->image);
         }
 
         $article->delete();

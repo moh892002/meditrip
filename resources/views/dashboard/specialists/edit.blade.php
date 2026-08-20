@@ -66,14 +66,14 @@
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="specializtion_id" class="form-label">التخصص <span class="text-danger">*</span></label>
-                                <select class="form-select @error('specializtion_id') is-invalid @enderror" id="specializtion_id" name="specializtion_id" required>
+                                <label for="specialization_id" class="form-label">التخصص <span class="text-danger">*</span></label>
+                                <select class="form-select @error('specialization_id') is-invalid @enderror" id="specialization_id" name="specialization_id" required>
                                     <option value="">اختر التخصص</option>
                                     @foreach ($specializations as $specialization)
-                                        <option value="{{ $specialization->id }}" {{ old('specializtion_id', $specialist->specializtion_id) == $specialization->id ? 'selected' : '' }}>{{ $specialization->name }}</option>
+                                        <option value="{{ $specialization->id }}" {{ old('specialization_id', $specialist->specialization_id) == $specialization->id ? 'selected' : '' }}>{{ $specialization->name }}</option>
                                     @endforeach
                                 </select>
-                                @error('specializtion_id') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                @error('specialization_id') <div class="invalid-feedback">{{ $message }}</div> @enderror
                             </div>
                         </div>
                     </div>

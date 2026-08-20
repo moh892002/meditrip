@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('hospital_specialization', function (Blueprint $table) {
             $table->id();
             $table->foreignId('hospital_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('specializtion_id')->constrained('specializtions')->cascadeOnDelete();
+            $table->foreignId('specialization_id')->constrained('specializations')->cascadeOnDelete();
             $table->timestamps();
         });
     }

@@ -13,7 +13,7 @@ class Order extends Model
 
 
     protected $fillable = [
-        "user_id", "hospital_id", "specializtion_id", "status",
+        "user_id", "hospital_id", "specialization_id", "status",
         "notes", "files", "patient_name", "patient_email",
         "patient_phone", "disease_description"
     ];
@@ -30,6 +30,6 @@ class Order extends Model
 
     public function specialization()
     {
-        return $this->belongsTo(Specializtion::class, 'specializtion_id');
+        return $this->belongsTo(Specialization::class, 'specialization_id');
     }
 }

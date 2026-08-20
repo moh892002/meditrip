@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Site;
 
 use App\Http\Controllers\Controller;
-use App\Models\Specializtion;
+use App\Models\Specialization;
 
 class SpecializationController extends Controller
 {
@@ -12,7 +12,7 @@ class SpecializationController extends Controller
      */
     public function index()
     {
-        $specializations = Specializtion::withCount('hospitals')
+        $specializations = Specialization::withCount('hospitals')
             ->latest()
             ->get();
 
@@ -22,7 +22,7 @@ class SpecializationController extends Controller
     /**
      * Display the specified specialization and its hospitals.
      */
-    public function show(Specializtion $specialization)
+    public function show(Specialization $specialization)
     {
         $specialization->load(['hospitals' => function ($query) {
             $query->withAvg('rates', 'rating');

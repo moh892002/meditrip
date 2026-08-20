@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use App\Models\Hospital;
-use App\Models\Specializtion;
+use App\Models\Specialization;
 use App\Models\Specialist;
 use App\Models\Offer;
 use App\Models\Article;
@@ -36,7 +36,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // Specializations
-        $specializations = Specializtion::factory(20)->create();
+        $specializations = Specialization::factory(20)->create();
 
         // Hospitals with all relations
         Hospital::factory(10)
@@ -44,7 +44,7 @@ class DatabaseSeeder extends Seeder
             ->has(
                 Specialist::factory()->count(5)
                     ->sequence(fn ($sequence) => [
-                        'specializtion_id' => $specializations->random()->id,
+                        'specialization_id' => $specializations->random()->id,
                     ]),
                 'specialists'
             )
@@ -67,7 +67,7 @@ class DatabaseSeeder extends Seeder
             Order::factory(rand(1, 3))->create([
                 'user_id' => $user->id,
                 'hospital_id' => Hospital::inRandomOrder()->first()->id,
-                'specializtion_id' => Specializtion::inRandomOrder()->first()->id,
+                'specialization_id' => Specialization::inRandomOrder()->first()->id,
             ]);
         });
 

@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Models\Hospital;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class HospitalController extends Controller
 {
@@ -41,15 +43,11 @@ class HospitalController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            $imageName = time() . '.' . $request->image->extension();
-            $request->image->move(public_path('images'), $imageName);
-            $validated['image'] = 'images/' . $imageName;
+            $validated['image'] = $request->file('image')->store('images', 'imageDisk');
         }
 
         if ($request->hasFile('logo')) {
-            $logoName = 'logo_' . time() . '.' . $request->logo->extension();
-            $request->logo->move(public_path('images'), $logoName);
-            $validated['logo'] = 'images/' . $logoName;
+            $validated['logo'] = $request->file('logo')->store('images', 'imageDisk');
         }
 
         if (isset($validated['services']) && $validated['services'] !== null) {
@@ -92,21 +90,17 @@ class HospitalController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            if ($hospital->image && file_exists(public_path($hospital->image))) {
-                unlink(public_path($hospital->image));
+            if ($hospital->image) {
+                Storage::disk('imageDisk')->delete($hospital->image);
             }
-            $imageName = time() . '.' . $request->image->extension();
-            $request->image->move(public_path('images'), $imageName);
-            $validated['image'] = 'images/' . $imageName;
+            $validated['image'] = $request->file('image')->store('images', 'imageDisk');
         }
 
         if ($request->hasFile('logo')) {
-            if ($hospital->logo && file_exists(public_path($hospital->logo))) {
-                unlink(public_path($hospital->logo));
+            if ($hospital->logo) {
+                Storage::disk('imageDisk')->delete($hospital->logo);
             }
-            $logoName = 'logo_' . time() . '.' . $request->logo->extension();
-            $request->logo->move(public_path('images'), $logoName);
-            $validated['logo'] = 'images/' . $logoName;
+            $validated['logo'] = $request->file('logo')->store('images', 'imageDisk');
         }
 
         if (isset($validated['services']) && $validated['services'] !== null) {
@@ -119,11 +113,11 @@ class HospitalController extends Controller
 
     public function destroy(Hospital $hospital)
     {
-        if ($hospital->image && file_exists(public_path($hospital->image))) {
-            unlink(public_path($hospital->image));
+        if ($hospital->image) {
+            Storage::disk('imageDisk')->delete($hospital->image);
         }
-        if ($hospital->logo && file_exists(public_path($hospital->logo))) {
-            unlink(public_path($hospital->logo));
+        if ($hospital->logo) {
+            Storage::disk('imageDisk')->delete($hospital->logo);
         }
 
         $hospital->delete();

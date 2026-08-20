@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Models\ContactMessage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ContactMessageController extends Controller
 {
@@ -32,8 +33,8 @@ class ContactMessageController extends Controller
 
     public function destroy(ContactMessage $message)
     {
-        if ($message->file && file_exists(public_path($message->file))) {
-            unlink(public_path($message->file));
+        if ($message->file) {
+            Storage::disk('imageDisk')->delete($message->file);
         }
 
         $message->delete();

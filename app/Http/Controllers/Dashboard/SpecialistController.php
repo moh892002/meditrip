@@ -5,8 +5,9 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Models\Specialist;
 use App\Models\Hospital;
-use App\Models\Specializtion;
+use App\Models\Specialization;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class SpecialistController extends Controller
 {
@@ -20,7 +21,7 @@ class SpecialistController extends Controller
     public function create()
     {
         $hospitals = Hospital::orderBy('name')->get();
-        $specializations = Specializtion::orderBy('name')->get();
+        $specializations = Specialization::orderBy('name')->get();
 
         return view("dashboard.specialists.create", compact("hospitals", "specializations"));
     }
@@ -31,16 +32,14 @@ class SpecialistController extends Controller
             "name" => "required|string|max:255",
             "image" => "nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048",
             "hospital_id" => "required|exists:hospitals,id",
-            "specializtion_id" => "required|exists:specializtions,id",
+            "specialization_id" => "required|exists:specializations,id",
             "rate" => "nullable|numeric|min:0|max:5",
             "description" => "nullable|string",
             "price" => "nullable|numeric|min:0",
         ]);
 
         if ($request->hasFile('image')) {
-            $imageName = time() . '.' . $request->image->extension();
-            $request->image->move(public_path('images/specialists'), $imageName);
-            $validated['image'] = 'images/specialists/' . $imageName;
+            $validated['image'] = $request->file('image')->store('images/specialists', 'imageDisk');
         }
 
         Specialist::create($validated);
@@ -58,7 +57,7 @@ class SpecialistController extends Controller
     public function edit(Specialist $specialist)
     {
         $hospitals = Hospital::orderBy('name')->get();
-        $specializations = Specializtion::orderBy('name')->get();
+        $specializations = Specialization::orderBy('name')->get();
 
         return view("dashboard.specialists.edit", compact("specialist", "hospitals", "specializations"));
     }
@@ -69,19 +68,18 @@ class SpecialistController extends Controller
             "name" => "sometimes|required|string|max:255",
             "image" => "sometimes|nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048",
             "hospital_id" => "sometimes|required|exists:hospitals,id",
-            "specializtion_id" => "sometimes|required|exists:specializtions,id",
+            "specialization_id" => "sometimes|required|exists:specializations,id",
             "rate" => "sometimes|nullable|numeric|min:0|max:5",
             "description" => "sometimes|nullable|string",
             "price" => "sometimes|nullable|numeric|min:0",
         ]);
 
         if ($request->hasFile('image')) {
-            if ($specialist->image && file_exists(public_path($specialist->image))) {
-                unlink(public_path($specialist->image));
+            if ($specialist->image) {
+                Storage::disk('imageDisk')->delete($specialist->image);
             }
-            $imageName = time() . '.' . $request->image->extension();
-            $request->image->move(public_path('images/specialists'), $imageName);
-            $validated['image'] = 'images/specialists/' . $imageName;
+
+            $validated['image'] = $request->file('image')->store('images/specialists', 'imageDisk');
         }
 
         $specialist->update($validated);
@@ -90,8 +88,8 @@ class SpecialistController extends Controller
 
     public function destroy(Specialist $specialist)
     {
-        if ($specialist->image && file_exists(public_path($specialist->image))) {
-            unlink(public_path($specialist->image));
+        if ($specialist->image) {
+            Storage::disk('imageDisk')->delete($specialist->image);
         }
 
         $specialist->delete();

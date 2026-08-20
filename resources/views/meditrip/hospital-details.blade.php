@@ -281,7 +281,7 @@
                             </div>
                             <div class="form-group mb-2">
                                 <label for="">التخصص</label>
-                              <select name="specializtion_id" id="" class="form-select cs-input">
+                              <select name="specialization_id" id="" class="form-select cs-input">
                                 <option value="">اختر التخصص</option>
                                 @foreach ($hospital->specializations as $specialization)
                                 <option value="{{ $specialization->id }}">{{ $specialization->name }}</option>

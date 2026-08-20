@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::table('specialists', function (Blueprint $table) {
             $table->foreignId('hospital_id')->nullable()->constrained()->nullOnDelete();
-            $table->foreignId('specializtion_id')->nullable()->constrained('specializtions')->nullOnDelete();
+            $table->foreignId('specialization_id')->nullable()->constrained('specializations')->nullOnDelete();
             $table->decimal('rate', 3, 1)->nullable()->default(0);
             $table->text('description')->nullable();
             $table->decimal('price', 10, 2)->nullable();
@@ -21,8 +21,8 @@ return new class extends Migration
     {
         Schema::table('specialists', function (Blueprint $table) {
             $table->dropForeign(['hospital_id']);
-            $table->dropForeign(['specializtion_id']);
-            $table->dropColumn(['hospital_id', 'specializtion_id', 'rate', 'description', 'price']);
+            $table->dropForeign(['specialization_id']);
+            $table->dropColumn(['hospital_id', 'specialization_id', 'rate', 'description', 'price']);
         });
     }
 };

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Site;
 
 use App\Http\Controllers\Controller;
 use App\Models\Hospital;
-use App\Models\Specializtion;
+use App\Models\Specialization;
 use Illuminate\Http\Request;
 
 class HospitalController extends Controller
@@ -30,13 +30,13 @@ class HospitalController extends Controller
 
         // Filter by specialization
         if ($request->filled('specialization')) {
-            $query->whereHas('specializations', fn ($q) => $q->where('specializtions.id', $request->specialization));
+            $query->whereHas('specializations', fn ($q) => $q->where('specializations.id', $request->specialization));
         }
 
         $hospitals = $query->latest()->paginate(10)->withQueryString();
 
         $cities = Hospital::select('city')->distinct()->orderBy('city')->pluck('city');
-        $specializations = Specializtion::orderBy('name')->get();
+        $specializations = Specialization::orderBy('name')->get();
 
         return view('meditrip.hospitals', compact('hospitals', 'cities', 'specializations'));
     }

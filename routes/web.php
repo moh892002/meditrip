@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Dashboard\ArticleController as DashboardArticleController;
 use App\Http\Controllers\Dashboard\ContactMessageController as DashboardContactMessageController;
+use App\Http\Controllers\Dashboard\DashboardController as DashboardDashboardController;
 use App\Http\Controllers\Dashboard\HospitalController as DashboardHospitalController;
 use App\Http\Controllers\Dashboard\OfferController as DashboardOfferController;
 use App\Http\Controllers\Dashboard\OrderController as DashboardOrderController;
@@ -32,16 +33,16 @@ Route::get('privacy', fn() => view('meditrip.privacy'))->name("privacy");
 // Authentication
 Route::middleware('guest')->group(function () {
     Route::get('login', [AuthController::class, 'showLogin'])->name("login");
-    Route::post('login', [AuthController::class, 'login'])->name("login.attempt");
+    Route::post('login', [AuthController::class, 'login'])->name("login.attempt")->middleware('throttle:6,1');
 
     Route::get('register', [AuthController::class, 'showRegister'])->name("register");
-    Route::post('register', [AuthController::class, 'register'])->name("register.attempt");
+    Route::post('register', [AuthController::class, 'register'])->name("register.attempt")->middleware('throttle:6,1');
 
     Route::get('forgetpassword', [AuthController::class, 'showForgetPassword'])->name("forgetpassword");
-    Route::post('forgetpassword', [AuthController::class, 'sendResetLink'])->name("forgetpassword.send");
+    Route::post('forgetpassword', [AuthController::class, 'sendResetLink'])->name("forgetpassword.send")->middleware('throttle:6,1');
 
     Route::get('reset-password/{token}', [AuthController::class, 'showResetPassword'])->name('password.reset');
-    Route::post('reset-password', [AuthController::class, 'resetPassword'])->name('password.update');
+    Route::post('reset-password', [AuthController::class, 'resetPassword'])->name('password.update')->middleware('throttle:6,1');
 });
 
 Route::post('logout', [AuthController::class, 'logout'])->name('logout');
@@ -88,47 +89,7 @@ Route::get('specializations/{specialization}', [SiteSpecializationController::cl
 
 // Dashboard Routes (Admin)
 Route::middleware(['auth', 'admin'])->prefix('dashboard')->name('dashboard.')->group(function () {
-    Route::get('/', function () {
-        $stats = [
-            'hospitals_count' => \App\Models\Hospital::count(),
-            'specializations_count' => \App\Models\Specializtion::count(),
-            'specialists_count' => \App\Models\Specialist::count(),
-            'offers_count' => \App\Models\Offer::count(),
-            'orders_count' => \App\Models\Order::count(),
-            'articles_count' => \App\Models\Article::count(),
-            'users_count' => \App\Models\User::count(),
-            'rates_count' => \App\Models\Rate::count(),
-            'total_rating_avg' => \App\Models\Rate::avg('rating') ?? 0,
-        ];
-
-        $recentHospitals = \App\Models\Hospital::latest()->take(5)->get();
-        $recentSpecializations = \App\Models\Specializtion::withCount('hospitals')->latest()->take(5)->get();
-        $recentOrders = \App\Models\Order::with(['hospital', 'specialization'])->latest()->take(5)->get();
-        $recentUsers = \App\Models\User::latest()->take(5)->get();
-        $topRatedHospitals = \App\Models\Hospital::withAvg('rates', 'rating')
-            ->withCount('rates')
-            ->get()
-            ->filter(fn ($hospital) => $hospital->rates_avg_rating > 0)
-            ->sortByDesc('rates_avg_rating')
-            ->take(5)
-            ->values();
-
-        $hospitalsByCity = \App\Models\Hospital::selectRaw('city, count(*) as total')
-            ->groupBy('city')
-            ->orderByDesc('total')
-            ->take(10)
-            ->pluck('total', 'city');
-
-        return view('dashboard.index', compact(
-            'stats',
-            'recentHospitals',
-            'recentSpecializations',
-            'recentOrders',
-            'recentUsers',
-            'topRatedHospitals',
-            'hospitalsByCity'
-        ));
-    })->name("index");
+    Route::get('/', [DashboardDashboardController::class, 'index'])->name("index");
 
     // Dashboard Hospitals CRUD
     Route::resource('hospitals', DashboardHospitalController::class);

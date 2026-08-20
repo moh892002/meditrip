@@ -3,14 +3,15 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
-use App\Models\Specializtion;
+use App\Models\Specialization;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class SpecializationController extends Controller
 {
     public function index()
     {
-        $specializations = Specializtion::withCount(['hospitals', 'specialists'])
+        $specializations = Specialization::withCount(['hospitals', 'specialists'])
             ->latest()
             ->paginate(15);
 
@@ -30,17 +31,15 @@ class SpecializationController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            $imageName = time() . '.' . $request->image->extension();
-            $request->image->move(public_path('images/specializations'), $imageName);
-            $validated['image'] = 'images/specializations/' . $imageName;
+            $validated['image'] = $request->file('image')->store('images/specializations', 'imageDisk');
         }
 
-        Specializtion::create($validated);
+        Specialization::create($validated);
 
         return redirect()->route("dashboard.specializations.index")->with("success", "تم إضافة التخصص بنجاح.");
     }
 
-    public function show(Specializtion $specialization)
+    public function show(Specialization $specialization)
     {
         $specialization->load(['hospitals' => function ($query) {
             $query->withCount('specialists');
@@ -52,12 +51,12 @@ class SpecializationController extends Controller
         return view("dashboard.specializations.show", compact("specialization"));
     }
 
-    public function edit(Specializtion $specialization)
+    public function edit(Specialization $specialization)
     {
         return view("dashboard.specializations.edit", compact("specialization"));
     }
 
-    public function update(Request $request, Specializtion $specialization)
+    public function update(Request $request, Specialization $specialization)
     {
         $validated = $request->validate([
             "name" => "sometimes|required|string|max:255",
@@ -65,13 +64,11 @@ class SpecializationController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            if ($specialization->image && file_exists(public_path($specialization->image))) {
-                unlink(public_path($specialization->image));
+            if ($specialization->image) {
+                Storage::disk('imageDisk')->delete($specialization->image);
             }
 
-            $imageName = time() . '.' . $request->image->extension();
-            $request->image->move(public_path('images/specializations'), $imageName);
-            $validated['image'] = 'images/specializations/' . $imageName;
+            $validated['image'] = $request->file('image')->store('images/specializations', 'imageDisk');
         }
 
         $specialization->update($validated);
@@ -79,10 +76,10 @@ class SpecializationController extends Controller
         return redirect()->route("dashboard.specializations.index")->with("success", "تم تحديث التخصص بنجاح.");
     }
 
-    public function destroy(Specializtion $specialization)
+    public function destroy(Specialization $specialization)
     {
-        if ($specialization->image && file_exists(public_path($specialization->image))) {
-            unlink(public_path($specialization->image));
+        if ($specialization->image) {
+            Storage::disk('imageDisk')->delete($specialization->image);
         }
 
         $specialization->delete();

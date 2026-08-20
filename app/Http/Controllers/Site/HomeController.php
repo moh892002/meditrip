@@ -6,13 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Models\Hospital;
 use App\Models\Rate;
 use App\Models\Specialist;
-use App\Models\Specializtion;
+use App\Models\Specialization;
 
 class HomeController extends Controller
 {
     public function index()
     {
-        $specializations = Specializtion::withCount('hospitals')->latest()->take(10)->get();
+        $specializations = Specialization::withCount('hospitals')->latest()->take(10)->get();
 
         $hospitals = Hospital::withAvg('rates', 'rating')
             ->withCount('rates')
@@ -33,7 +33,7 @@ class HomeController extends Controller
         $stats = [
             'hospitals' => Hospital::count(),
             'specialists' => Specialist::count(),
-            'specializations' => Specializtion::count(),
+            'specializations' => Specialization::count(),
             'beneficiaries' => max(Hospital::sum('operations_count'), Hospital::count() * 50),
             'rates' => Rate::count(),
         ];

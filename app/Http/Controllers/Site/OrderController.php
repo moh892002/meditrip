@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Site;
 use App\Http\Controllers\Controller;
 use App\Models\Hospital;
 use App\Models\Order;
-use App\Models\Specializtion;
+use App\Models\Specialization;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -18,7 +18,7 @@ class OrderController extends Controller
         $quote = ['hospital_id' => $hospital->id];
 
         // Capture any details provided by the quick-quote form on the hospital page.
-        foreach (['patient_name', 'patient_email', 'patient_phone', 'disease_description', 'specializtion_id'] as $field) {
+        foreach (['patient_name', 'patient_email', 'patient_phone', 'disease_description', 'specialization_id'] as $field) {
             if ($request->filled($field)) {
                 $quote[$field] = $request->input($field);
             }
@@ -27,7 +27,7 @@ class OrderController extends Controller
         session(['quote' => $quote]);
 
         // If a specialization was already chosen, skip step 1.
-        if (! empty($quote['specializtion_id'])) {
+        if (! empty($quote['specialization_id'])) {
             return redirect()->route('q2');
         }
 
@@ -39,7 +39,7 @@ class OrderController extends Controller
      */
     public function question1()
     {
-        $specializations = Specializtion::all();
+        $specializations = Specialization::all();
 
         return view('meditrip.questions', compact('specializations'));
     }
@@ -50,11 +50,11 @@ class OrderController extends Controller
     public function storeQuestion1(Request $request)
     {
         $validated = $request->validate([
-            'specializtion_id' => ['required', 'exists:specializtions,id'],
+            'specialization_id' => ['required', 'exists:specializations,id'],
         ]);
 
         $quote = session('quote', []);
-        $quote['specializtion_id'] = $validated['specializtion_id'];
+        $quote['specialization_id'] = $validated['specialization_id'];
         session(['quote' => $quote]);
 
         return redirect()->route('q2');
@@ -170,7 +170,7 @@ class OrderController extends Controller
         abort_if(empty($quote) || empty($quote['hospital_id']), 404);
 
         $hospital = Hospital::withAvg('rates', 'rating')->withCount('rates')->findOrFail($quote['hospital_id']);
-        $specialization = isset($quote['specializtion_id']) ? Specializtion::find($quote['specializtion_id']) : null;
+        $specialization = isset($quote['specialization_id']) ? Specialization::find($quote['specialization_id']) : null;
 
         return view('meditrip.order', compact('quote', 'hospital', 'specialization'));
     }
@@ -204,7 +204,7 @@ class OrderController extends Controller
         $order = Order::create([
             'user_id' => auth()->id(),
             'hospital_id' => $quote['hospital_id'],
-            'specializtion_id' => $quote['specializtion_id'] ?? null,
+            'specialization_id' => $quote['specialization_id'] ?? null,
             'status' => 'pending',
             'notes' => implode("\n", $notes) ?: null,
             'files' => $quote['files'] ?? null,

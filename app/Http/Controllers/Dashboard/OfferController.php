@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Offer;
 use App\Models\Hospital;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class OfferController extends Controller
 {
@@ -36,9 +37,7 @@ class OfferController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            $imageName = time() . '.' . $request->image->extension();
-            $request->image->move(public_path('images/offers'), $imageName);
-            $validated['image'] = 'images/offers/' . $imageName;
+            $validated['image'] = $request->file('image')->store('images/offers', 'imageDisk');
         }
 
         Offer::create($validated);
@@ -73,12 +72,11 @@ class OfferController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            if ($offer->image && file_exists(public_path($offer->image))) {
-                unlink(public_path($offer->image));
+            if ($offer->image) {
+                Storage::disk('imageDisk')->delete($offer->image);
             }
-            $imageName = time() . '.' . $request->image->extension();
-            $request->image->move(public_path('images/offers'), $imageName);
-            $validated['image'] = 'images/offers/' . $imageName;
+
+            $validated['image'] = $request->file('image')->store('images/offers', 'imageDisk');
         }
 
         $offer->update($validated);
@@ -87,8 +85,8 @@ class OfferController extends Controller
 
     public function destroy(Offer $offer)
     {
-        if ($offer->image && file_exists(public_path($offer->image))) {
-            unlink(public_path($offer->image));
+        if ($offer->image) {
+            Storage::disk('imageDisk')->delete($offer->image);
         }
 
         $offer->delete();

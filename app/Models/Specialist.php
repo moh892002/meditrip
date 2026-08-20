@@ -12,7 +12,7 @@ class Specialist extends Model
     use HasFactory;
 
 
-    protected $fillable = ['name', 'image', 'hospital_id', 'specializtion_id', 'rate', 'description', 'price'];
+    protected $fillable = ['name', 'image', 'hospital_id', 'specialization_id', 'rate', 'description', 'price'];
 
     public function hospital()
     {
@@ -21,6 +21,6 @@ class Specialist extends Model
 
     public function specialization()
     {
-        return $this->belongsTo(Specializtion::class, 'specializtion_id');
+        return $this->belongsTo(Specialization::class, 'specialization_id');
     }
 }

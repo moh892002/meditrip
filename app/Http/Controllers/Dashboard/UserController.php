@@ -24,6 +24,14 @@ class UserController extends Controller
 
     public function destroy(User $user)
     {
+        if ($user->id === auth()->id()) {
+            return back()->withErrors(['error' => 'لا يمكنك حذف حسابك الخاص.']);
+        }
+
+        if ($user->is_admin && User::where('is_admin', true)->count() <= 1) {
+            return back()->withErrors(['error' => 'لا يمكنك حذف آخر مدير في النظام.']);
+        }
+
         $user->delete();
         return redirect()->route("dashboard.users.index")->with("success", "تم حذف المستخدم بنجاح.");
     }

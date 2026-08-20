@@ -28,9 +28,9 @@
                                             @foreach ($specializations as $index => $specialization)
                                             <div class="col-lg-6">
                                                 <div class="btn-group" role="group">
-                                                    <input type="radio" class="btn-check" name="specializtion_id"
+                                                    <input type="radio" class="btn-check" name="specialization_id"
                                                         id="specialization{{ $specialization->id }}" value="{{ $specialization->id }}"
-                                                        autocomplete="off" @checked(old('specializtion_id') == $specialization->id)>
+                                                        autocomplete="off" @checked(old('specialization_id') == $specialization->id)>
                                                     <label class="btn cs-checkbox" for="specialization{{ $specialization->id }}">
                                                         <span>{{ $index + 1 }}</span>
                                                         {{ $specialization->name }}
