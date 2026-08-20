@@ -2,6 +2,7 @@
     <div class="container-fluid px-4">
         <h1 class="mt-4">المستشفيات</h1>
         <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item"><a href="{{ route('dashboard.index') }}">لوحة التحكم</a></li>
             <li class="breadcrumb-item active">المستشفيات</li>
         </ol>
 
@@ -82,25 +83,10 @@
                         </table>
                     </div>
                 @endif
+                <div class="d-flex justify-content-center mt-3">
+                    {{ $hospitals->links() }}
+                </div>
             </div>
         </div>
     </div>
-
-    @push('scripts')
-        <script>
-            // Initialize DataTable if the library is available
-            if (typeof simpleDatatables !== 'undefined') {
-                const dataTable = new simpleDatatables.DataTable('#hospitalsTable', {
-                    searchable: true,
-                    perPageSelect: true,
-                    labels: {
-                        placeholder: "بحث...",
-                        perPage: "عدد الصفوف",
-                        noRows: "لا توجد بيانات",
-                        info: "عرض {start} إلى {end} من {rows} مستشفى"
-                    }
-                });
-            }
-        </script>
-    @endpush
 </x-dashboard-layout>

@@ -12,7 +12,7 @@ class HospitalController extends Controller
     {
         $hospitals = Hospital::withCount(['specialists', 'offers', 'rates', 'specializations'])
             ->latest()
-            ->get();
+            ->paginate(15);
 
         return view("dashboard.hospitals.index", compact("hospitals"));
     }
@@ -33,7 +33,7 @@ class HospitalController extends Controller
             "about" => "nullable|string",
             "services" => "nullable|string",
             "facilities" => "nullable|string",
-            "beds_num" => "nullable|integer",
+            "beds_num" => "nullable|integer|min:0",
             "founded_year" => "nullable|integer|min:1800|max:" . date('Y'),
             "doctors_count" => "nullable|integer|min:0",
             "staff_count" => "nullable|integer|min:0",
@@ -52,9 +52,13 @@ class HospitalController extends Controller
             $validated['logo'] = 'images/' . $logoName;
         }
 
+        if (isset($validated['services']) && $validated['services'] !== null) {
+            $validated['services'] = array_filter(array_map('trim', explode("\n", $validated['services'])));
+        }
+
         Hospital::create($validated);
 
-        return redirect()->route("dashboard.hospitals.index")->with("success", "Hospital created successfully.");
+        return redirect()->route("dashboard.hospitals.index")->with("success", "تم إضافة المستشفى بنجاح.");
     }
 
     public function show(Hospital $hospital)
@@ -80,7 +84,7 @@ class HospitalController extends Controller
             "about" => "sometimes|nullable|string",
             "services" => "sometimes|nullable|string",
             "facilities" => "sometimes|nullable|string",
-            "beds_num" => "sometimes|nullable|integer",
+            "beds_num" => "sometimes|nullable|integer|min:0",
             "founded_year" => "sometimes|nullable|integer|min:1800|max:" . date('Y'),
             "doctors_count" => "sometimes|nullable|integer|min:0",
             "staff_count" => "sometimes|nullable|integer|min:0",
@@ -88,24 +92,41 @@ class HospitalController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
+            if ($hospital->image && file_exists(public_path($hospital->image))) {
+                unlink(public_path($hospital->image));
+            }
             $imageName = time() . '.' . $request->image->extension();
             $request->image->move(public_path('images'), $imageName);
             $validated['image'] = 'images/' . $imageName;
         }
 
         if ($request->hasFile('logo')) {
+            if ($hospital->logo && file_exists(public_path($hospital->logo))) {
+                unlink(public_path($hospital->logo));
+            }
             $logoName = 'logo_' . time() . '.' . $request->logo->extension();
             $request->logo->move(public_path('images'), $logoName);
             $validated['logo'] = 'images/' . $logoName;
         }
 
+        if (isset($validated['services']) && $validated['services'] !== null) {
+            $validated['services'] = array_filter(array_map('trim', explode("\n", $validated['services'])));
+        }
+
         $hospital->update($validated);
-        return redirect()->route("dashboard.hospitals.index")->with("success", "Hospital updated successfully.");
+        return redirect()->route("dashboard.hospitals.index")->with("success", "تم تحديث المستشفى بنجاح.");
     }
 
     public function destroy(Hospital $hospital)
     {
+        if ($hospital->image && file_exists(public_path($hospital->image))) {
+            unlink(public_path($hospital->image));
+        }
+        if ($hospital->logo && file_exists(public_path($hospital->logo))) {
+            unlink(public_path($hospital->logo));
+        }
+
         $hospital->delete();
-        return redirect()->route("dashboard.hospitals.index")->with("success", "Hospital deleted successfully.");
+        return redirect()->route("dashboard.hospitals.index")->with("success", "تم حذف المستشفى بنجاح.");
     }
 }

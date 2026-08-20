@@ -344,7 +344,7 @@
                 <div class="content">
                     <div class="owl-carousel rates-slider owl-slider">
                         @forelse ($rates as $rate)
-                        <div class="rates-card wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.1s">
+                        <div class="rates-card wow fadeInUp d-flex flex-column justify-content-between" data-wow-duration="1s" data-wow-delay="0.1s">
                             <div class="rate">
                                 @for ($i = 1; $i <= 5; $i++)
                                 <span>

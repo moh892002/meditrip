@@ -1,7 +1,14 @@
 <?php
 
+use App\Http\Controllers\Dashboard\ArticleController as DashboardArticleController;
+use App\Http\Controllers\Dashboard\ContactMessageController as DashboardContactMessageController;
 use App\Http\Controllers\Dashboard\HospitalController as DashboardHospitalController;
+use App\Http\Controllers\Dashboard\OfferController as DashboardOfferController;
+use App\Http\Controllers\Dashboard\OrderController as DashboardOrderController;
+use App\Http\Controllers\Dashboard\RateController as DashboardRateController;
+use App\Http\Controllers\Dashboard\SpecialistController as DashboardSpecialistController;
 use App\Http\Controllers\Dashboard\SpecializationController as DashboardSpecializationController;
+use App\Http\Controllers\Dashboard\UserController as DashboardUserController;
 use App\Http\Controllers\Site\AuthController;
 use App\Http\Controllers\Site\BlogController;
 use App\Http\Controllers\Site\ContactController;
@@ -128,4 +135,26 @@ Route::middleware(['auth', 'admin'])->prefix('dashboard')->name('dashboard.')->g
 
     // Dashboard Specializations CRUD
     Route::resource('specializations', DashboardSpecializationController::class);
+
+    // Dashboard Specialists CRUD
+    Route::resource('specialists', DashboardSpecialistController::class);
+
+    // Dashboard Offers CRUD
+    Route::resource('offers', DashboardOfferController::class);
+
+    // Dashboard Orders (read-only + status update + delete)
+    Route::resource('orders', DashboardOrderController::class)->only(['index', 'show', 'destroy']);
+    Route::put('orders/{order}/status', [DashboardOrderController::class, 'updateStatus'])->name('orders.updateStatus');
+
+    // Dashboard Articles CRUD
+    Route::resource('articles', DashboardArticleController::class);
+
+    // Dashboard Users (read-only + delete)
+    Route::resource('users', DashboardUserController::class)->only(['index', 'show', 'destroy']);
+
+    // Dashboard Contact Messages (read-only + delete)
+    Route::resource('messages', DashboardContactMessageController::class)->only(['index', 'show', 'destroy']);
+
+    // Dashboard Rates (read-only + delete)
+    Route::resource('rates', DashboardRateController::class)->only(['index', 'show', 'destroy']);
 });

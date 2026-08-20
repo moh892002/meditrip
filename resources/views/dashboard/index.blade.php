@@ -6,6 +6,13 @@
             <li class="breadcrumb-item active">لوحة التحكم</li>
         </ol>
 
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="إغلاق"></button>
+            </div>
+        @endif
+
         <!-- Stats Cards -->
         <div class="row g-4 mb-4">
             <div class="col-xl-3 col-md-6">
@@ -48,7 +55,7 @@
                         </div>
                     </div>
                     <div class="card-footer d-flex align-items-center justify-content-between">
-                        <span>إجمالي الأخصائيين</span>
+                        <a href="{{ route('dashboard.specialists.index') }}" class="text-decoration-none">عرض التفاصيل</a>
                         <i class="fas fa-arrow-left small"></i>
                     </div>
                 </div>
@@ -63,7 +70,7 @@
                         </div>
                     </div>
                     <div class="card-footer d-flex align-items-center justify-content-between">
-                        <span>العروض المميزة</span>
+                        <a href="{{ route('dashboard.offers.index') }}" class="text-decoration-none">عرض التفاصيل</a>
                         <i class="fas fa-arrow-left small"></i>
                     </div>
                 </div>
@@ -82,7 +89,7 @@
                         </div>
                     </div>
                     <div class="card-footer d-flex align-items-center justify-content-between">
-                        <span>طلبات المرضى</span>
+                        <a href="{{ route('dashboard.orders.index') }}" class="text-decoration-none">عرض التفاصيل</a>
                         <i class="fas fa-arrow-left small"></i>
                     </div>
                 </div>
@@ -97,7 +104,7 @@
                         </div>
                     </div>
                     <div class="card-footer d-flex align-items-center justify-content-between">
-                        <span>إجمالي المستخدمين</span>
+                        <a href="{{ route('dashboard.users.index') }}" class="text-decoration-none">عرض التفاصيل</a>
                         <i class="fas fa-arrow-left small"></i>
                     </div>
                 </div>
@@ -112,7 +119,7 @@
                         </div>
                     </div>
                     <div class="card-footer d-flex align-items-center justify-content-between">
-                        <span>المقالات المنشورة</span>
+                        <a href="{{ route('dashboard.articles.index') }}" class="text-decoration-none">عرض التفاصيل</a>
                         <i class="fas fa-arrow-left small"></i>
                     </div>
                 </div>
@@ -127,7 +134,7 @@
                         </div>
                     </div>
                     <div class="card-footer d-flex align-items-center justify-content-between">
-                        <span>معدل التقييم: {{ number_format($stats['total_rating_avg'], 1) }} / 5</span>
+                        <a href="{{ route('dashboard.rates.index') }}" class="text-decoration-none">عرض التفاصيل</a>
                         <i class="fas fa-arrow-left small"></i>
                     </div>
                 </div>
@@ -292,6 +299,7 @@
                 <div class="card h-100">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <span><i class="fas fa-file-medical me-1"></i> أحدث الطلبات</span>
+                        <a href="{{ route('dashboard.orders.index') }}" class="btn btn-sm btn-primary">عرض الكل</a>
                     </div>
                     <div class="card-body">
                         @if ($recentOrders->isEmpty())
@@ -347,9 +355,9 @@
             <!-- Recent Users -->
             <div class="col-xl-6">
                 <div class="card h-100">
-                    <div class="card-header">
-                        <i class="fas fa-users me-1"></i>
-                        أحدث المستخدمين
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <span><i class="fas fa-users me-1"></i> أحدث المستخدمين</span>
+                        <a href="{{ route('dashboard.users.index') }}" class="btn btn-sm btn-primary">عرض الكل</a>
                     </div>
                     <div class="card-body">
                         @if ($recentUsers->isEmpty())

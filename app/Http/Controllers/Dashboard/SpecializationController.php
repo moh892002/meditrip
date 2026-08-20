@@ -13,7 +13,7 @@ class SpecializationController extends Controller
     {
         $specializations = Specializtion::withCount(['hospitals', 'specialists'])
             ->latest()
-            ->get();
+            ->paginate(15);
 
         return view("dashboard.specializations.index", compact("specializations"));
     }
